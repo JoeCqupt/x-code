@@ -26,7 +26,7 @@ public class SortedArrayToBST {
     }
 
 
-    class Solution {
+    class Solution_BAD {
         public TreeNode sortedArrayToBST(int[] nums) {
             int left = 0;
             int right = nums.length - 1;
@@ -66,6 +66,33 @@ public class SortedArrayToBST {
             leftPart.right = rightPart;
 
             return leftPart;
+        }
+    }
+
+
+    class Solution {
+        public TreeNode sortedArrayToBST(int[] nums) {
+            int left = 0;
+            int right = nums.length - 1;
+            return toBST(nums, left, right);
+        }
+
+        public TreeNode toBST(int[] nums, int start, int end) {
+            if (start == end) {
+                return new TreeNode(nums[start]);
+            }
+            if (start > end) {
+                return null;
+            }
+            // always choose mid-left
+            int mid = start + (end - start) / 2;
+            TreeNode leftTree = toBST(nums, start, mid - 1);
+            TreeNode rightTree = toBST(nums, mid + 1, end);
+            TreeNode root = new TreeNode(nums[mid]);
+            root.left = leftTree;
+            root.right = rightTree;
+            return root;
+
         }
     }
 }
